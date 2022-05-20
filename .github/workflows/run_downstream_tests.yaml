@@ -68,7 +68,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(inputs.downstream_repos_as_json) }}
       fail-fast: false
-    timeout-minutes: 120
+    timeout-minutes: 240
     steps:
     - name: Trigger downstream test workflow and wait
       uses: convictional/trigger-workflow-and-wait@v1.6.3
