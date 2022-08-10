@@ -7,6 +7,10 @@ inputs:
   channels:
     description: The conda channels to fetch packages from
     default: defaults
+  channel-priority:
+    description: Channel priority determines if packages in lower priority channels are considered if a package with the same name appears in a higher priority channel.
+    required: false
+    default: fixed
   python-version:
     description: The Python version to install
     required: true
@@ -45,7 +49,7 @@ runs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
-        channel-priority: strict
+        channel-priority: ${{ inputs.channel-priority }}
         channels: ${{ inputs.channels}}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -l {0}
@@ -63,8 +67,7 @@ runs:
       id: cache
     - if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        conda install "pyctdev>=0.5"
-        conda install "nodejs=15.3.0"
+        conda install "pyctdev>=0.5" "nodejs=15.3.0"
         doit env_create --python=${{ inputs.python-version }}
       shell: bash -l {0}
     - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'

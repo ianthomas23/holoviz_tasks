@@ -8,6 +8,8 @@ This action handles the setup and caching of environments used for testing on va
   The name of the task
 - channels: str (default: "defaults", required)
   The conda channels to fetch packages from
+- channel-priority: str (default: "strict")
+  Channel priority determines if packages in lower priority channels are considered if a package with the same name appears in a higher priority channel.
 - python-version: str (default: "3.7", required)
 - envs: str (default: "-o examples", required:
   The string passed to doit develop_install
