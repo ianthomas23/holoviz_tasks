@@ -28,7 +28,7 @@ This action handles the setup and caching of environments used for testing on va
 Here is an example using the install action to set up and cache a complicated environment: 
 
 ```yaml
-- uses: pyviz-dev/actions@v0.1a13
+- uses: pyviz-dev/holoviz_tasks/install@master
   with:
     name: ui_test_suite
     python_version: 3.9
