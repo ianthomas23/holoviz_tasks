@@ -59,24 +59,21 @@ runs:
       uses: actions/cache@v2
       with:
         path: ${{ env.ENVS_PATH }}
-        key: ${{ inputs.name  }}-${{ runner.os }}-conda-${{ inputs.python-version }}-${{ hashFiles('setup.py') }}-tests-${{ env.TODAY }}
+        key: ${{ inputs.name  }}-${{ runner.os }}-conda-${{ inputs.python-version }}-${{ hashFiles('setup.py') }}-${{ env.TODAY }}
       id: cache
     - if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        eval "$(conda shell.bash hook)"
         conda install "pyctdev>=0.5"
         conda install "nodejs=15.3.0"
         doit env_create --python=${{ inputs.python-version }}
       shell: bash -l {0}
     - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
       run: |
-        eval "$(conda shell.bash hook)"
         conda activate test-environment
         pip install -e . --no-deps --no-build-isolation
       shell: bash -l {0}
     - if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
       run: |
-        eval "$(conda shell.bash hook)"
         conda activate test-environment
         doit develop_install ${{ inputs.envs }}
       shell: bash -l {0}
@@ -93,24 +90,20 @@ runs:
       shell: bash -l {0}
     - if: inputs.opengl == 'true' && runner.os == 'Linux' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
       run: |
-        eval "$(conda shell.bash hook)"
         conda activate test-environment
         conda install mesalib
       shell: bash -l {0}
     - if: inputs.playwright == 'true' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
       run: |
-        eval "$(conda shell.bash hook)"
         conda activate test-environment
         pip install playwright pytest-playwright
       shell: bash -l {0}
     - if: inputs.playwright == 'true'
       run: |
-        eval "$(conda shell.bash hook)"
         conda activate test-environment
         playwright install chromium
       shell: bash -l {0}
     - run: |
-          eval "$(conda shell.bash hook)"
           conda activate test-environment
           doit env_capture
       shell: bash -l {0}
