@@ -34,6 +34,11 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: "100"
+    - run: git fetch --prune --tags --unshallow
+      shell: bash -l {0}
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ inputs.python-version }}
