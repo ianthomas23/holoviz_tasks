@@ -43,7 +43,7 @@ runs:
         fetch-depth: "100"
     - run: git fetch --prune --tags --unshallow
       shell: bash -l {0}
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
     - uses: conda-incubator/setup-miniconda@v2
