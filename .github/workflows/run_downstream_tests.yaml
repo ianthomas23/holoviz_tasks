@@ -37,7 +37,7 @@ jobs:
     - name: Get version from git tag
       id: from_git
       run: |
-        echo ::set-output name=version::$(git tag -l --sort=-creatordate | head -n 1 | cut -c 2-)
+        echo "version=$(git tag -l --sort=-creatordate | head -n 1 | cut -c 2-)" >> $GITHUB_OUTPUT
     - uses: conda-incubator/setup-miniconda@v2
       name: Install conda with miniconda
       with:
@@ -54,7 +54,7 @@ jobs:
         # the surrounding quotes).
         # Using only pyviz/label/dev for the search, since dev releases and releases can
         # both be found in this channel. 
-        echo ::set-output name=version::$(conda search --override-channels -c pyviz/label/dev "${{ env.UPSTREAM_REPO }}==${{ steps.from_git.outputs.version }}" --json | jq -r ".${{ env.UPSTREAM_REPO }}[0].version")
+        echo "version=$(conda search --override-channels -c pyviz/label/dev '${{ env.UPSTREAM_REPO }}==${{ steps.from_git.outputs.version }}' --json | jq -r '.${{ env.UPSTREAM_REPO }}[0].version')"  >> $GITHUB_OUTPUT
     - name: Print tag and conda version found
       run: |
         echo "git tag: ${{ steps.from_git.outputs.version }}"
