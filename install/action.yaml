@@ -71,7 +71,7 @@ runs:
       id: cache
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
       run: |
-        conda install -c conda-forge "nodejs=15.3.0" --no-update-deps
+        conda install nodejs
       shell: bash -l {0}
     - if: steps.cache.outputs.cache-hit != 'true'
       run: |
