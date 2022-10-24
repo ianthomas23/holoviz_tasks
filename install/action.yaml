@@ -80,12 +80,14 @@ runs:
       run: |
         conda create -n test-environment
         conda activate test-environment
-        IFS="," read -a channels <<< ${{ inputs.channels }}
-        for channel in "${channels[@]}"; do
-          if [channel = "nodefaults"]
+        IFS="," read -a channels_array <<< ${{ inputs.channels }}
+        for channel in "${channels_array[@]}"; do
+          if [ "$channel" = "nodefaults" ]
           then
+            echo "Remove defaults channel"
             conda config --remove channels defaults
           else
+            echo "Add channel $channel"
             conda config --env --append channels ${channel}
           fi
         done
