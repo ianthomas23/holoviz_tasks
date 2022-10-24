@@ -97,43 +97,43 @@ runs:
         conda info
         conda install python=${{ inputs.python-version }} pyctdev
       shell: bash -l {0}
-    # - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
-    #   run: |
-    #     conda activate test-environment
-    #     pip install -e . --no-deps --no-build-isolation
-    #   shell: bash -l {0}
-    # - if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
-    #   run: |
-    #     conda activate test-environment
-    #     doit develop_install ${{ inputs.envs }}
-    #   shell: bash -l {0}
-    # - if: inputs.opengl == 'true' && runner.os == 'Windows'
-    #   run: |
-    #     git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
-    #     powershell gl-ci-helpers/appveyor/install_opengl.ps1
-    #   shell: bash -l {0}
-    # - if: inputs.opengl == 'true' && runner.os == 'Linux'
-    #   run: |
-    #     sudo apt-get install libglu1-mesa
-    #     /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24
-    #     sleep 3
-    #   shell: bash -l {0}
-    # - if: inputs.opengl == 'true' && runner.os == 'Linux' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
-    #   run: |
-    #     conda activate test-environment
-    #     conda install mesalib
-    #   shell: bash -l {0}
-    # - if: inputs.playwright == 'true' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
-    #   run: |
-    #     conda activate test-environment
-    #     pip install playwright pytest-playwright
-    #   shell: bash -l {0}
-    # - if: inputs.playwright == 'true'
-    #   run: |
-    #     conda activate test-environment
-    #     playwright install chromium
-    #   shell: bash -l {0}
-    # - run: |
-    #       conda activate test-environment
-    #       doit env_capture
-    #   shell: bash -l {0}
+    - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
+      run: |
+        conda activate test-environment
+        pip install -e . --no-deps --no-build-isolation
+      shell: bash -l {0}
+    - if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
+      run: |
+        conda activate test-environment
+        doit develop_install ${{ inputs.envs }}
+      shell: bash -l {0}
+    - if: inputs.opengl == 'true' && runner.os == 'Windows'
+      run: |
+        git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
+        powershell gl-ci-helpers/appveyor/install_opengl.ps1
+      shell: bash -l {0}
+    - if: inputs.opengl == 'true' && runner.os == 'Linux'
+      run: |
+        sudo apt-get install libglu1-mesa
+        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24
+        sleep 3
+      shell: bash -l {0}
+    - if: inputs.opengl == 'true' && runner.os == 'Linux' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
+      run: |
+        conda activate test-environment
+        conda install mesalib
+      shell: bash -l {0}
+    - if: inputs.playwright == 'true' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
+      run: |
+        conda activate test-environment
+        pip install playwright pytest-playwright
+      shell: bash -l {0}
+    - if: inputs.playwright == 'true'
+      run: |
+        conda activate test-environment
+        playwright install chromium
+      shell: bash -l {0}
+    - run: |
+          conda activate test-environment
+          doit env_capture
+      shell: bash -l {0}
