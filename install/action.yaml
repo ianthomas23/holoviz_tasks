@@ -55,6 +55,9 @@ runs:
         miniconda-version: "latest"
         # channel-priority: ${{ inputs.channel-priority }}
         # channels: ${{ inputs.channels}}
+    - run: |
+        conda update -c defaults -n base conda
+      shell: bash -l {0}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -l {0}
     - if: runner.os == 'Windows'
