@@ -67,7 +67,7 @@ runs:
       run: echo "ENVS_PATH=${{ format('{0}/{1}', env.CONDA, 'envs') }}" >> $GITHUB_ENV
       shell: bash -l {0}
     - if: inputs.cache == 'true'
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ env.ENVS_PATH }}
         key: ${{ inputs.name  }}-${{ runner.os }}-conda-${{ inputs.python-version }}-${{ hashFiles('setup.py') }}-${{ env.TODAY }}
