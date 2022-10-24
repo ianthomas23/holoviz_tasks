@@ -15,6 +15,8 @@ This action handles the setup and caching of environments used for testing on va
   The string passed to doit develop_install
 - cache: bool (default: false)
   Whether to enable caching
+- nodejs: bool (default: false)
+  Whether to install nodejs in the base environment
 - opengl: bool (default: false)
   Whether to install openGL
 - playwright: bool (default: false)
