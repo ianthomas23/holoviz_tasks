@@ -86,6 +86,7 @@ runs:
           then
             echo "Remove defaults channel"
             conda config --remove channels defaults
+            conda config --env --remove channels defaults
           else
             echo "Add channel $channel"
             conda config --env --append channels ${channel}
