@@ -83,7 +83,7 @@ runs:
           then
             conda config --remove channels defaults
           else
-            conda env config --append channels ${channel}
+            conda config --env --append channels ${channel}
           fi
         done
         conda config --env --set channel_priority ${{ inputs.channel-priority }}
