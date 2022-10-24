@@ -95,7 +95,7 @@ runs:
         conda config --show-sources
         conda info
         conda install python=${{ inputs.python-version }} pyctdev
-    #   shell: bash -l {0}
+      shell: bash -l {0}
     # - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
     #   run: |
     #     conda activate test-environment
