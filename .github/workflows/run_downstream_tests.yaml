@@ -71,7 +71,7 @@ jobs:
     timeout-minutes: 240
     steps:
     - name: Trigger downstream test workflow and wait
-      uses: convictional/trigger-workflow-and-wait@v1.6.3
+      uses: convictional/trigger-workflow-and-wait@v1.6.5
       with:
         owner: holoviz
         repo: ${{ matrix.downstream_repo }}
