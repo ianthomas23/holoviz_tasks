@@ -101,9 +101,13 @@ runs:
         pip install -e . --no-deps --no-build-isolation
       shell: bash -l {0}
     - if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
+      # Need || echo "Keep going" and pip install again to deal with
+      # when pyctdev updates CPython itself. Dangerous as that could
+      # hide other issues.
       run: |
         conda activate test-environment
-        doit develop_install ${{ inputs.envs }}
+        doit develop_install ${{ inputs.envs }}  || echo "Keep going"
+        pip install -e . --no-deps --no-build-isolation
       shell: bash -l {0}
     - if: inputs.opengl == 'true' && runner.os == 'Windows'
       run: |
