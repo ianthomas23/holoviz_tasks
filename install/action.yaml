@@ -26,19 +26,23 @@ inputs:
   nodejs:
     description: Whether to install nodejs in the base environment
     required: false
-    default: 'false'
+    default: "false"
   cache:
     description: Whether to enable caching
     required: false
-    default: 'false'
+    default: "false"
   opengl:
     description: Whether to install openGL
     required: false
-    default: 'false'
+    default: "false"
   playwright:
     description: Whether to install playwright
     required: false
     default: 'false'
+  conda-mamba:
+    description: Whether to use conda or mamba
+    required: false
+    default: "mamba"
 outputs:
   cache-hit:
     description: Whether the cache was hit
@@ -79,7 +83,7 @@ runs:
       id: cache
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
       run: |
-        mamba install nodejs
+        ${{ inputs.conda-mamba }} install nodejs
       shell: bash -el {0}
     - if: steps.cache.outputs.cache-hit != 'true'
       run: |
@@ -100,7 +104,7 @@ runs:
         conda config --env --set channel_priority ${{ inputs.channel-priority }}
         conda config --show-sources
         conda info
-        mamba install python=${{ inputs.python-version }} pyctdev
+        ${{ inputs.conda-mamba }} install python=${{ inputs.python-version }} pyctdev
       shell: bash -el {0}
     - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
       run: |
@@ -113,7 +117,7 @@ runs:
       # hide other issues.
       run: |
         conda activate test-environment
-        doit develop_install ${{ inputs.envs }} --conda-mode=mamba || echo "Keep going"
+        doit develop_install ${{ inputs.envs }} --conda-mode=${{ inputs.conda-mamba }} || echo "Keep going"
         pip install -e . --no-deps --no-build-isolation
       shell: bash -el {0}
     - if: inputs.opengl == 'true' && runner.os == 'Windows'
@@ -130,7 +134,7 @@ runs:
     - if: inputs.opengl == 'true' && runner.os == 'Linux' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
       run: |
         conda activate test-environment
-        mamba install mesalib
+        ${{ inputs.conda-mamba }} install mesalib
       shell: bash -el {0}
     - if: inputs.playwright == 'true' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
       run: |
