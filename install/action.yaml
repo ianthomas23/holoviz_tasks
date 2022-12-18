@@ -59,10 +59,10 @@ runs:
         miniconda-version: "latest"
         channels: conda-forge
         use-mamba: true
-    - if: inputs.conda-update == 'true'
-      run: |
-        conda update -c defaults -n base conda
-      shell: bash -l {0}
+      # - if: inputs.conda-update == 'true'
+      #   run: |
+      #     conda update -c defaults -n base conda
+      # shell: bash -l {0}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -l {0}
     - if: runner.os == 'Windows'
