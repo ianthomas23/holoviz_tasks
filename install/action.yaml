@@ -56,7 +56,7 @@ runs:
         python-version: ${{ inputs.python-version }}
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        miniforge-variant: Miniforge3
+        miniforge-variant: Mambaforge
         channels: conda-forge
         use-mamba: true
       # - if: inputs.conda-update == 'true'
