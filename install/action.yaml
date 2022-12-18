@@ -50,7 +50,7 @@ runs:
       with:
         fetch-depth: "100"
     - run: git fetch --prune --tags --unshallow
-      shell: bash -l {0}
+      shell: bash -el {0}
     - uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
@@ -62,30 +62,30 @@ runs:
       # - if: inputs.conda-update == 'true'
       #   run: |
       #     conda update -c defaults -n base conda
-      # shell: bash -l {0}
+      # shell: bash -el {0}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: runner.os == 'Windows'
       run: echo "ENVS_PATH=${{ format('{0}\{1}', env.CONDA, 'envs') }}" >> $GITHUB_ENV
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: runner.os != 'Windows'
       run: echo "ENVS_PATH=${{ format('{0}/{1}', env.CONDA, 'envs') }}" >> $GITHUB_ENV
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.cache == 'true'
       uses: actions/cache@v3
       with:
         path: ${{ env.ENVS_PATH }}
         key: ${{ inputs.name  }}-${{ runner.os }}-conda-${{ inputs.python-version }}-${{ hashFiles('setup.py') }}-${{ env.TODAY }}
       id: cache
-    - run: |
-        conda install mamba -y
-        mamba init
-      shell: bash -l {0}
-      id: mamba
+    # - run: |
+    #     conda install mamba -y
+    #     mamba init
+      # shell: bash -el {0}
+      # id: mamba
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
       run: |
         mamba install nodejs
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: steps.cache.outputs.cache-hit != 'true'
       run: |
         conda create -n test-environment
@@ -105,13 +105,13 @@ runs:
         conda config --env --set channel_priority ${{ inputs.channel-priority }}
         conda config --show-sources
         conda info
-        conda install python=${{ inputs.python-version }} pyctdev mamba
-      shell: bash -l {0}
+        conda install python=${{ inputs.python-version }} pyctdev # mamba
+      shell: bash -el {0}
     - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
       run: |
         conda activate test-environment
         pip install -e . --no-deps --no-build-isolation
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
       # Need || echo "Keep going" and pip install again to deal with
       # when pyctdev updates CPython itself. Dangerous as that could
@@ -120,34 +120,34 @@ runs:
         conda activate test-environment
         doit develop_install ${{ inputs.envs }} --conda-mode=mamba || echo "Keep going"
         pip install -e . --no-deps --no-build-isolation
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.opengl == 'true' && runner.os == 'Windows'
       run: |
         git clone --depth 1 https://github.com/pyvista/gl-ci-helpers.git
         powershell gl-ci-helpers/appveyor/install_opengl.ps1
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.opengl == 'true' && runner.os == 'Linux'
       run: |
         sudo apt-get install libglu1-mesa
         /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24
         sleep 3
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.opengl == 'true' && runner.os == 'Linux' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
       run: |
         conda activate test-environment
         mamba install mesalib
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.playwright == 'true' && (inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true')
       run: |
         conda activate test-environment
         pip install playwright pytest-playwright
-      shell: bash -l {0}
+      shell: bash -el {0}
     - if: inputs.playwright == 'true'
       run: |
         conda activate test-environment
         playwright install chromium
-      shell: bash -l {0}
+      shell: bash -el {0}
     - run: |
         conda activate test-environment
         doit env_capture
-      shell: bash -l {0}
+      shell: bash -el {0}
