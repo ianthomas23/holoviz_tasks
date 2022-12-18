@@ -105,7 +105,7 @@ runs:
         conda config --env --set channel_priority ${{ inputs.channel-priority }}
         conda config --show-sources
         conda info
-        mamba install python=${{ inputs.python-version }} pyctdev
+        conda install python=${{ inputs.python-version }} pyctdev mamba
       shell: bash -l {0}
     - if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
       run: |
