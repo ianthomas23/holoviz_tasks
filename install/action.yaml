@@ -79,6 +79,7 @@ runs:
       id: cache
     - run: |
         conda install mamba -y
+        mamba init
       shell: bash -l {0}
       id: mamba
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
