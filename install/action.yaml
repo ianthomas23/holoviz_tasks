@@ -77,6 +77,9 @@ runs:
         path: ${{ env.ENVS_PATH }}
         key: ${{ inputs.name  }}-${{ runner.os }}-conda-${{ inputs.python-version }}-${{ hashFiles('setup.py') }}-${{ env.TODAY }}
       id: cache
+    - run: |
+        conda install mamba -y
+      id: mamba
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
       run: |
         mamba install nodejs
