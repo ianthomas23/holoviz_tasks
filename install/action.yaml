@@ -68,7 +68,6 @@ runs:
         use-mamba: true
         auto-update-conda: ${{ inputs.conda-update }}
         use-only-tar-bz2: true
-      shell: bash -el {0}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
     - if: runner.os == 'Windows'
