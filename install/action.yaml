@@ -42,10 +42,10 @@ inputs:
   conda-mamba:
     description: Whether to use conda or mamba
     required: false
-    default: "conda"
+    default: 'conda'
     options:
-      - conda
-      - mamba
+      - 'conda'
+      - 'mamba'
 outputs:
   cache-hit:
     description: Whether the cache was hit
@@ -66,9 +66,8 @@ runs:
         miniforge-variant: Mambaforge
         channels: conda-forge
         use-mamba: true
-    - if: inputs.conda-update == 'true'
-      run: |
-        conda update -c defaults -n base conda
+        auto-update-conda: ${{ inputs.conda-update }}
+        use-only-tar-bz2: true
       shell: bash -el {0}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
