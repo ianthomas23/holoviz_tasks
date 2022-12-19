@@ -26,15 +26,15 @@ inputs:
   nodejs:
     description: Whether to install nodejs in the base environment
     required: false
-    default: "false"
+    default: 'false'
   cache:
     description: Whether to enable caching
     required: false
-    default: "false"
+    default: 'false'
   opengl:
     description: Whether to install openGL
     required: false
-    default: "false"
+    default: 'false'
   playwright:
     description: Whether to install playwright
     required: false
@@ -42,7 +42,10 @@ inputs:
   conda-mamba:
     description: Whether to use conda or mamba
     required: false
-    default: "mamba"
+    default: "conda"
+    options:
+      - conda
+      - mamba
 outputs:
   cache-hit:
     description: Whether the cache was hit
@@ -63,10 +66,10 @@ runs:
         miniforge-variant: Mambaforge
         channels: conda-forge
         use-mamba: true
-      # - if: inputs.conda-update == 'true'
-      #   run: |
-      #     conda update -c defaults -n base conda
-      # shell: bash -el {0}
+    - if: inputs.conda-update == 'true'
+      run: |
+        conda update -c defaults -n base conda
+      shell: bash -el {0}
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
     - if: runner.os == 'Windows'
