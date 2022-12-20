@@ -66,9 +66,8 @@ runs:
         miniforge-variant: Mambaforge
         channels: conda-forge
         use-mamba: true
-        # auto-update-conda is needed when caching to pull the latest index
-        auto-update-conda: ${{ inputs.conda-update == 'true' || inputs.cache == 'true' }}
-        use-only-tar-bz2: ${{ inputs.cache }}
+        auto-update-conda: ${{ inputs.conda-update }}
+        # use-only-tar-bz2: ${{ inputs.cache }}  # Does not give latest version
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
     - if: runner.os == 'Windows'
@@ -83,10 +82,6 @@ runs:
         path: ${{ env.ENVS_PATH }}
         key: ${{ inputs.name  }}-${{ runner.os }}-${{ inputs.conda-mamba }}-${{ inputs.python-version }}-${{ hashFiles('setup.py') }}-${{ env.TODAY }}
       id: cache
-    - if: inputs.conda-update == 'true' || inputs.cache == 'true'
-      run: |
-        ${{ inputs.conda-mamba }} update conda -n base
-      shell: bash -el {0}
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
       run: |
         ${{ inputs.conda-mamba }} install nodejs
