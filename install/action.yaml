@@ -67,7 +67,6 @@ runs:
         channels: conda-forge,defaults
         auto-update-conda: ${{ inputs.conda-update }}
         mamba-version: "*"
-        python-version: 3.8  # For the base?
         # use-only-tar-bz2: ${{ inputs.cache }}  # Does not give latest version
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
@@ -85,7 +84,7 @@ runs:
       id: cache
     - if: inputs.conda-mamba == 'mamba'
       run: |
-        conda list mamba
+        conda run -n base conda list mamba
         conda install mamba -c conda-forge -n base
         echo "MAMBA_NO_BANNER=1" >> $GITHUB_ENV
         conda run -n base mamba init --all
