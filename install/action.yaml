@@ -64,9 +64,8 @@ runs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
-        channels: conda-forge,defaults
+        channels: defaults
         auto-update-conda: ${{ inputs.conda-update }}
-        mamba-version: "1.0"
         # use-only-tar-bz2: ${{ inputs.cache }}  # Does not give latest version
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
@@ -84,9 +83,8 @@ runs:
       id: cache
     - if: inputs.conda-mamba == 'mamba'
       run: |
-        conda run -n base conda list mamba
-        conda install mamba -c conda-forge -n base
         echo "MAMBA_NO_BANNER=1" >> $GITHUB_ENV
+        conda install mamba=1 -c conda-forge -n base
         conda run -n base mamba init --all
       shell: bash -el {0}
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
