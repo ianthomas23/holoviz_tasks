@@ -21,7 +21,9 @@ This action handles the setup and caching of environments used for testing on va
   Whether to install openGL
 - playwright: bool (default: false)
   Whether to install playwright
-  
+- conda-mamba: 'conda' / 'mamba' (default: 'conda')
+  Whether to use conda or mamba for installing
+
 ## Outputs
 
 - cache-hit:
