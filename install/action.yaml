@@ -64,7 +64,7 @@ runs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
-        channels: defaults
+        channels: conda-forge,defaults
         auto-update-conda: ${{ inputs.conda-update }}
         mamba-version: "*"
         python-version: 3.8  # For the base?
@@ -85,6 +85,7 @@ runs:
       id: cache
     - if: inputs.conda-mamba == 'mamba'
       run: |
+        conda list mamba
         conda install mamba -c conda-forge -n base
         echo "MAMBA_NO_BANNER=1" >> $GITHUB_ENV
         conda run -n base mamba init --all
