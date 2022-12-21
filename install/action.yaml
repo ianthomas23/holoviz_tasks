@@ -66,6 +66,8 @@ runs:
         miniconda-version: "latest"
         channels: defaults
         auto-update-conda: ${{ inputs.conda-update }}
+        mamba-version: "*"
+        python-version: 3.8  # For the base?
         # use-only-tar-bz2: ${{ inputs.cache }}  # Does not give latest version
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       shell: bash -el {0}
