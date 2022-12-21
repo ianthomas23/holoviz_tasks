@@ -63,7 +63,8 @@ runs:
         python-version: ${{ inputs.python-version }}
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        miniforge-variant: Mambaforge
+        # miniforge-variant: Mambaforge
+        miniconda-version: "latest"
         channels: conda-forge
         use-mamba: true
         auto-update-conda: ${{ inputs.conda-update }}
