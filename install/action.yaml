@@ -84,7 +84,7 @@ runs:
     - if: inputs.conda-mamba == 'mamba'
       run: |
         echo "MAMBA_NO_BANNER=1" >> $GITHUB_ENV
-        conda install mamba=1 -c conda-forge -n base
+        conda install mamba -c conda-forge -n base
         conda run -n base mamba init --all
       shell: bash -el {0}
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
