@@ -30,7 +30,7 @@ inputs:
   nodejs-version:
     description: nodejs version to install in the base environment
     required: false
-    default: '16'
+    default: '16.x'
   cache:
     description: Whether to enable caching
     required: false
@@ -93,9 +93,9 @@ runs:
         conda run -n base mamba init --all
       shell: bash -el {0}
     - if: inputs.nodejs == 'true' && steps.cache.outputs.cache-hit != 'true'
-      run: |
-        ${{ inputs.conda-mamba }} install nodejs=${{ inputs.nodejs-version }}
-      shell: bash -el {0}
+      uses: actions/setup-node@v1
+      with:
+       node-version: ${{ inputs.nodejs-version }}
     - if: steps.cache.outputs.cache-hit != 'true'
       run: |
         conda create -n test-environment
