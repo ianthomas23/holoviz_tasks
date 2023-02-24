@@ -70,7 +70,7 @@ runs:
     - uses: conda-incubator/setup-miniconda@v2
       with:
         miniconda-version: "latest"
-        conda-version: "22.11.1"
+        #conda-version: "22.11.1"
         auto-update-conda: ${{ inputs.conda-update }}
         # use-only-tar-bz2: ${{ inputs.cache }}  # Does not give latest version
     - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
